@@ -9,7 +9,11 @@
 </head>
 
 <body>
-    <h1>Teste</h1>
+    <input type="text" id="inputText">
+    <button onclick="enviar()">Enviar</button>
+
+    <h2>Resposta do Servidor</h2>
+    <p id="response"></p>
 
 
 
@@ -20,6 +24,25 @@
     <script>
         //conecção com socket do backend
         var socket = io("http://localhost:8080")
+
+
+
+
+        function enviar() {
+            var input = document.getElementById("inputText");
+            socket.emit("input", input.value)
+            input.value = " "
+        }
+
+        socket.on("serverResponse", (data) => {
+            const paragraph = document.getElementById("response")
+            paragraph.innerHTML = data
+        })
+
+        socket.on("desconnect", () => {
+            console.log("Conexão encerrada")
+        })
+
     </script>
 
 </body>

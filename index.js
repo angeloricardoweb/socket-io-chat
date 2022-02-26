@@ -4,8 +4,13 @@ var http = require("http").createServer(app);
 const io = require("socket.io")(http);
 
 io.on("connection", (socket) => {
-  console.log(socket);
-  console.log(socket.id);
+  socket.on("desconnect", () => {
+    console.log("Conexão encerrada");
+  });
+
+  socket.on("input", (data) => {
+    socket.emit("serverResponse", data + "Olá, como posso ajudar?");
+  });
 });
 
 app.set("view engine", "ejs");
